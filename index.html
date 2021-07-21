@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+      integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Clicker Empire Game</title>
+  </head>
+  <body>
+    <div
+      class="
+        vh-100
+        bg-dark
+        d-flex
+        flex-column
+        justify-content-center
+        align-items-center
+      "
+    >
+      <div class="d-flex justify-content-center align-items-center col-12">
+        <!-- 1ページ目（ユーザー名を入力するページ） -->
+        <!-- <div id="initial-form" class="bg-white col-7 text-center p-4">
+          <h1 class="pb-3">Clicker Empire Game</h1>
+          <h3 class="pb-3">Please type your name</h3>
+          <form
+            id="name-form"
+            class="form"
+            onsubmit="startGame(); event.preventDefault()"
+          >
+            <div class="form-group">
+              <input
+                type="text"
+                name="userName"
+                class="form-control"
+                placeholder="User Name"
+                value=""
+                required
+              />
+            </div>
+            <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-primary col-5">
+                New Game
+              </button>
+              <button type="submit" class="btn btn-primary col-5">Login</button>
+            </div>
+          </form>
+        </div> -->
+        <!-- 2ページ目（メインのページ） -->
+        <div id="main-page" class="bg-secondary col-12 text-center text-white h-75">
+          <div
+            id="container"
+            class="d-flex justify-content-between h-100"
+          >
+            <div class="bg-dark col-5 d-flex flex-column align-items-center py-3 my-3">
+              <div class="bg-secondary col-3 mw-100 mb-3">
+                <p>100 Burgers</p>
+                <p>¥25 / day</p>
+              </div>
+              <div class="col-9 d-flex justify-content-center align-items-center mw-100">
+                <h1>Burger Picture</h1>
+              </div>
+            </div>
+            <div class="col-7 d-flex flex-column align-items-center my-3 pr-0">
+              <div class="bg-dark col-3 mw-100 py-3 mb-3 d-flex flex-column align-items-center mw-100">
+                <div class="col-6 d-flex justify-content-between mw-100 px-0">
+                  <div class="col-6 bg-secondary text-center d-flex flex-column justify-content-center">
+                    <p>User name</p>
+                  </div>
+                  <div class="col-6 bg-secondary text-center d-flex flex-column justify-content-center">
+                    <p>User name</p>
+                  </div>
+                </div>
+                <div class="col-6 d-flex justify-content-between mw-100 px-0">
+                  <div class="col-6 bg-secondary text-center d-flex flex-column justify-content-center">
+                    <p>User name</p>
+                  </div>
+                  <div class="col-6 bg-secondary text-center d-flex flex-column justify-content-center">
+                    <p>User name</p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-dark col-7 mw-100"></div>
+              <div class="bg-primary col-2 mw-100 d-flex justify-content-end align-items-center">
+                <div class="col-2"><h1>Reset</h1></div>
+                <div class="col-2"><h1>Save</h1></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="main.js"></script>
+  </body>
+</html>
