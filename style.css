@@ -9,6 +9,7 @@ p {
 
 .pic{
   width: 80%;
+  max-width: 15em;
 }
 
 .pic-item{
