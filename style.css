@@ -6,3 +6,47 @@ body {
 p {
   margin: 0!important;
 }
+
+.pic{
+  width: 80%;
+}
+
+.pic-item{
+  width: 100%;
+}
+
+.item-window {
+  min-height: 100%;
+  height: auto;
+}
+
+.hover {
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+}
+
+.hover-outline:hover {
+  cursor: pointer;
+  transition: all 0.1s ease-out;
+  outline: 0.2em solid #0ca1e6;
+}
+
+.hover:hover {
+  opacity: 0.8;
+}
+
+.btn-bg-white {
+  background-color: #FFF;
+}
+
+.bg-navy {
+  background-color: #252e3a;
+}
+
+.bg-gray {
+  background-color: #4a5972;
+}
+
+.text-green {
+  color: #4ace7a;
+}
