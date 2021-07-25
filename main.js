@@ -23,87 +23,6 @@ class User {
     this.profitPerDay = profitPerDay;
     this.purchasedItems = purchasedItems;
   }
-
-  //getter methods
-  getName() {
-    return this.name;
-  }
-  getAge() {
-    return this.age;
-  }
-  getDays() {
-    return this.days;
-  }
-  getMoney() {
-    return this.money;
-  }
-  getBurgers() {
-    return this.burgers;
-  }
-  getProfitPerClick() {
-    return this.profitPerClick;
-  }
-  getProfitPerDay() {
-    return this.profitPerDay;
-  }
-  getPurchasedItems() {
-    return this.purchasedItems;
-  }
-
-  //setter methods
-  updateProfitPerClick(profit) {
-    this.profitPerClick += profit;
-  }
-
-  updateProfitPerDay(profit) {
-    this.profitPerDay += profit;
-  }
-
-  purchaseItem(item, num) {
-    if (num === 0) return;
-
-    if (item.getName() === "EFT Stock") {
-      let profit =
-        Math.floor(item.getPrice() * Math.pow(1 + 0.1, num)) - item.getPrice();
-      item.updatePrice(0.1, num);
-      this.updateProfitPerDay(
-        Math.floor((profit * item.getDescription()) / 10)
-      );
-      this.money -= item.getPrice() * num;
-      item.updatePurchasedNum(num);
-      return;
-    }
-
-    this.money -= item.getPrice() * num;
-    item.updatePurchasedNum(num);
-
-    let type = item.getType();
-    if (type === "ability") {
-      this.updateProfitPerClick(item.getDescription() * num);
-    } else if (type === "investment") {
-      this.updateProfitPerDay(
-        Math.floor((item.getDescription() / 100) * item.getPrice() * num)
-      );
-    } else {
-      this.updateProfitPerDay(item.getDescription() * num);
-    }
-  }
-
-  makeMoney(amount) {
-    this.money += amount;
-  }
-
-  makeBurger() {
-    this.burgers++;
-  }
-
-  setDays() {
-    this.days++;
-  }
-
-  setAge() {
-    this.age++;
-  }
 }
 
 class Item {
@@ -116,149 +35,7 @@ class Item {
     this.purchasedNum = purchasedNum;
     this.image = image;
   }
-
-  //getter methods
-  getName() {
-    return this.name;
-  }
-  getType() {
-    return this.type;
-  }
-  getMaxNum() {
-    return this.maxNum;
-  }
-  getDescription() {
-    return this.description;
-  }
-  getPrice() {
-    return this.price;
-  }
-  getPurchasedNum() {
-    return this.purchasedNum;
-  }
-  getImage() {
-    return this.image;
-  }
-
-  //setter mothods
-  updatePrice(rate, num) {
-    let diff = Math.floor(this.price * Math.pow(1 + rate, num)) - this.price;
-    this.price += diff;
-    return this.price;
-  }
-  updatePurchasedNum(num) {
-    if (this.purchasedNum === this.maxNum) {
-      alert("Out of stock! Thank you!");
-      return;
-    } else if (this.purchasedNum + num > this.maxNum) {
-      alert(`No more stock! Please put less number.`);
-      return;
-    }
-    this.purchasedNum += num;
-  }
 }
-
-const itemList = [
-  new Item(
-    "Flip Machine",
-    "ability",
-    500,
-    25,
-    15000,
-    0,
-    "https://cdn.pixabay.com/photo/2015/12/08/00/24/grilling-1081675_960_720.jpg"
-  ),
-  new Item(
-    "EFT Stock",
-    "investment",
-    Infinity,
-    0.1,
-    300000,
-    0,
-    "https://cdn.pixabay.com/photo/2016/12/13/22/15/chart-1905225_960_720.jpg"
-  ),
-  new Item(
-    "EFT Bonds",
-    "investment",
-    Infinity,
-    0.07,
-    300000,
-    0,
-    "https://cdn.pixabay.com/photo/2016/12/13/22/15/chart-1905225_960_720.jpg"
-  ),
-  new Item(
-    "Lemonade Stand",
-    "realEstate",
-    1000,
-    30,
-    30000,
-    0,
-    "https://cdn.pixabay.com/photo/2018/07/12/21/59/drink-3534434_960_720.jpg"
-  ),
-  new Item(
-    "Ice Cream Truck",
-    "realEstate",
-    500,
-    120,
-    100000,
-    0,
-    "https://cdn.pixabay.com/photo/2020/06/29/17/10/ice-cream-5353446_960_720.jpg"
-  ),
-  new Item(
-    "House",
-    "realEstate",
-    100,
-    32000,
-    20000000,
-    0,
-    "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_960_720.jpg"
-  ),
-  new Item(
-    "Town House",
-    "realEstate",
-    100,
-    64000,
-    40000000,
-    0,
-    "https://cdn.pixabay.com/photo/2018/01/31/12/16/architecture-3121009_960_720.jpg"
-  ),
-  new Item(
-    "Mansion",
-    "realEstate",
-    20,
-    500000,
-    250000000,
-    0,
-    "https://cdn.pixabay.com/photo/2017/08/06/06/53/urban-2589645_960_720.jpg"
-  ),
-  new Item(
-    "Industrial Space",
-    "realEstate",
-    10,
-    2200000,
-    1000000000,
-    0,
-    "https://cdn.pixabay.com/photo/2015/09/19/16/04/factory-947425_960_720.jpg"
-  ),
-  new Item(
-    "Hotel Skyscraper",
-    "realEstate",
-    5,
-    25000000,
-    10000000000,
-    0,
-    "https://cdn.pixabay.com/photo/2016/12/23/18/28/singapore-1927720_960_720.jpg"
-  ),
-  new Item(
-    "Bullet-Speed Sky Railway",
-    "realEstate",
-    1,
-    30000000000,
-    10000000000000,
-    0,
-    "https://cdn.pixabay.com/photo/2020/05/30/01/03/shinkansen-5237269_960_720.jpg"
-  ),
-];
 
 class View {
   static createMainPage(user) {
@@ -273,6 +50,7 @@ class View {
   static createLeftCon(user) {
     let leftCon = document.createElement("div");
     leftCon.classList.add(
+      "left-con",
       "bg-navy",
       "col-5",
       "d-flex",
@@ -285,13 +63,13 @@ class View {
     leftCon.innerHTML = `
       <div class="bg-gray col-3 mw-100 mb-3 d-flex flex-column align-items-center py-2">
         <div class="col-4 mw-100 d-flex align-items-center justify-content-center">
-          <h4>${user.getBurgers()} Burgers</h4>
+          <h4>${user.burgers.toLocaleString()} Burgers</h4>
         </div>
         <div class="col-4 mw-100 d-flex align-items-center justify-content-center">
-          <p>¥${user.getProfitPerClick()} / click</p>
+          <p>¥${user.profitPerClick.toLocaleString()} / click</p>
         </div>
         <div class="col-4 mw-100 d-flex align-items-center justify-content-center">
-          <p>¥${user.getProfitPerDay()} / day</p>
+          <p>¥${user.profitPerDay.toLocaleString()} / day</p>
         </div>
       </div>
       <div class="col-9 d-flex justify-content-center align-items-center mw-100">
@@ -336,7 +114,10 @@ class View {
       .querySelectorAll("#item-table")
       .item(0)
       .append(View.createItemTableCon(user));
-    rightCon.querySelectorAll(".btn-con").item(0).append(View.createButtonsCon(user));
+    rightCon
+      .querySelectorAll(".btn-con")
+      .item(0)
+      .append(View.createButtonsCon(user));
 
     return rightCon;
   }
@@ -355,18 +136,18 @@ class View {
     userInfoCon.innerHTML = `
       <div class="col d-flex justify-content-between mw-100 px-0 mb-2">
         <div class="col bg-gray text-center d-flex flex-column justify-content-center mr-2">
-          <p>${user.getName()}</p>
+          <p>${user.name}</p>
         </div>
         <div class="col bg-gray text-center d-flex flex-column justify-content-center">
-          <p>${user.getAge()} yrs old</p>
+          <p>${user.age} yrs old</p>
         </div>
       </div>
       <div class="col d-flex justify-content-between mw-100 px-0">
         <div class="col bg-gray text-center d-flex flex-column justify-content-center mr-2">
-          <p>${user.getDays().toLocaleString()} days</p>
+          <p>${user.days.toLocaleString()} days</p>
         </div>
         <div class="col bg-gray text-center d-flex flex-column justify-content-center">
-          <p>¥${user.getMoney().toLocaleString()}</p>
+          <p>¥${user.money.toLocaleString()}</p>
         </div>
       </div>
     `;
@@ -386,7 +167,8 @@ class View {
       "pt-2"
     );
 
-    let itemMenuCon = View.createItemMenu();
+    let itemMenuCon = View.createItemMenu(user);
+    let itemList = user.purchasedItems;
 
     //purchase windowを開くためのevent listenerを付与
     for (let i = 0; i < itemList.length; i++) {
@@ -408,20 +190,21 @@ class View {
     let container = document.createElement("div");
     container.classList.add("h-100", "pb-2");
 
-    let name = item.getName();
-    let maxPurchases = item.getMaxNum() - item.getPurchasedNum();
-    let price = item.getPrice().toLocaleString();
-    let image = item.getImage();
-    let type = item.getType();
+    let name = item.name;
+    let maxPurchases = item.maxNum - item.purchasedNum;
+    let price = item.price.toLocaleString();
+    let image = item.image;
+    let type = item.type;
     let description = "Get ";
     if (type === "ability") {
-      description += item.getDescription() + " extra yen per click";
+      description += item.description + " extra yen per click";
     } else if (type === "investment") {
       description +=
-        Math.floor((item.getDescription() / 100) * item.getPrice()).toLocaleString() +
+        Math.floor((item.description / 100) * item.price).toLocaleString() +
         " extra yen per second";
     } else {
-      description += item.getDescription().toLocaleString() + " extra yen per second";
+      description +=
+        item.description.toLocaleString() + " extra yen per second";
     }
 
     container.innerHTML = `
@@ -461,13 +244,12 @@ class View {
       let inputNum = parseInt(
         container.querySelectorAll("#numOfPurchase").item(0).value
       );
-      if (user.getMoney() < item.getPrice() * inputNum) {
+      if (user.money < item.price * inputNum) {
         alert("You do not have enough money to buy!");
         return;
       }
 
-      user.purchaseItem(item, inputNum);
-
+      Controler.purchaseItem(user, item, inputNum);
       Controler.updateMainPage(user);
     });
 
@@ -496,17 +278,25 @@ class View {
     let resetBtn = buttonsCon.querySelectorAll(".btn-reset").item(0);
     let saveBtn = buttonsCon.querySelectorAll(".btn-save").item(0);
 
-    resetBtn.addEventListener("click", function(){Controler.resetAllData(user)});
+    resetBtn.addEventListener("click", function () {
+      Controler.resetAllData(user);
+    });
+
+    saveBtn.addEventListener("click", function () {
+      Controler.saveUser(user);
+      console.log(user);
+    });
 
     return buttonsCon;
   }
 
-  static createItemMenu() {
+  static createItemMenu(user) {
     let container = document.createElement("div");
     container.classList.add("item-list");
     let boxContainer = document.createElement("div");
     boxContainer.classList.add("d-flex", "flex-column", "align-items-center");
 
+    let itemList = user.purchasedItems;
     for (let i = 0; i < itemList.length; i++) {
       let eachItemBox = View.createItemBox(itemList[i]);
       boxContainer.append(eachItemBox);
@@ -531,17 +321,17 @@ class View {
       "pl-2"
     );
 
-    let image = item.getImage();
-    let name = item.getName();
-    let price = item.getPrice().toLocaleString();
-    let type = item.getType();
+    let image = item.image;
+    let name = item.name;
+    let price = item.price.toLocaleString();
+    let type = item.type;
     let description = "+ ";
     if (type === "ability") {
-      description += "¥" + item.getDescription().toLocaleString() + " / click";
+      description += "¥" + item.description.toLocaleString() + " / click";
     } else if (type === "investment") {
-      description += item.getDescription() + " % / day";
+      description += item.description + " % / day";
     } else {
-      description += "¥" + item.getDescription().toLocaleString() + " / day";
+      description += "¥" + item.description.toLocaleString() + " / day";
     }
 
     container.innerHTML += `
@@ -556,29 +346,13 @@ class View {
         </div>
       </div>
       <div class="col-1 d-flex justify-content-center">
-        <h3>${item.getPurchasedNum()}</h3>
+        <h3>${item.purchasedNum}</h3>
       </div>
     `;
     return container;
   }
-}
 
-class Controler{
-  static initializeUserAccount(user) {
-    let name = user.getName();
-    user = new User(name);
-    config.mainPage.innerHTML = "";
-    config.mainPage.append(View.createMainPage(user));
-    setInterval(function(){Controler.updateUser(user)}, 1000);
-  }
-
-  static startGame() {
-    const form = document.getElementById("name-form");
-    let userAccount = new User(
-      form.querySelectorAll(`input[name="userName"]`).item(0).value
-    );
-    console.log(userAccount);
-
+  static initialToMain(user) {
     config.initialForm.classList.add("d-none");
     config.mainPage.classList.add(
       "bg-gray",
@@ -587,17 +361,179 @@ class Controler{
       "text-white",
       "h-75"
     );
-    config.mainPage.append(View.createMainPage(userAccount));
+    config.mainPage.append(View.createMainPage(user));
 
-    setInterval(function(){Controler.updateUser(userAccount)}, 1000);
+    Controler.startTimer(user);
+  }
+}
+
+class Controler {
+  timer;
+
+  static initializeUserAccount(userName) {
+    const itemList = [
+      new Item(
+        "Flip Machine",
+        "ability",
+        500,
+        25,
+        15000,
+        0,
+        "https://cdn.pixabay.com/photo/2015/12/08/00/24/grilling-1081675_960_720.jpg"
+      ),
+      new Item(
+        "EFT Stock",
+        "investment",
+        Infinity,
+        0.1,
+        300000,
+        0,
+        "https://cdn.pixabay.com/photo/2016/12/13/22/15/chart-1905225_960_720.jpg"
+      ),
+      new Item(
+        "EFT Bonds",
+        "investment",
+        Infinity,
+        0.07,
+        300000,
+        0,
+        "https://cdn.pixabay.com/photo/2016/12/13/22/15/chart-1905225_960_720.jpg"
+      ),
+      new Item(
+        "Lemonade Stand",
+        "realEstate",
+        1000,
+        30,
+        30000,
+        0,
+        "https://cdn.pixabay.com/photo/2018/07/12/21/59/drink-3534434_960_720.jpg"
+      ),
+      new Item(
+        "Ice Cream Truck",
+        "realEstate",
+        500,
+        120,
+        100000,
+        0,
+        "https://cdn.pixabay.com/photo/2020/06/29/17/10/ice-cream-5353446_960_720.jpg"
+      ),
+      new Item(
+        "House",
+        "realEstate",
+        100,
+        32000,
+        20000000,
+        0,
+        "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_960_720.jpg"
+      ),
+      new Item(
+        "Town House",
+        "realEstate",
+        100,
+        64000,
+        40000000,
+        0,
+        "https://cdn.pixabay.com/photo/2018/01/31/12/16/architecture-3121009_960_720.jpg"
+      ),
+      new Item(
+        "Mansion",
+        "realEstate",
+        20,
+        500000,
+        250000000,
+        0,
+        "https://cdn.pixabay.com/photo/2017/08/06/06/53/urban-2589645_960_720.jpg"
+      ),
+      new Item(
+        "Industrial Space",
+        "realEstate",
+        10,
+        2200000,
+        1000000000,
+        0,
+        "https://cdn.pixabay.com/photo/2015/09/19/16/04/factory-947425_960_720.jpg"
+      ),
+      new Item(
+        "Hotel Skyscraper",
+        "realEstate",
+        5,
+        25000000,
+        10000000000,
+        0,
+        "https://cdn.pixabay.com/photo/2016/12/23/18/28/singapore-1927720_960_720.jpg"
+      ),
+      new Item(
+        "Bullet-Speed Sky Railway",
+        "realEstate",
+        1,
+        30000000000,
+        10000000000000,
+        0,
+        "https://cdn.pixabay.com/photo/2020/05/30/01/03/shinkansen-5237269_960_720.jpg"
+      ),
+    ];
+    if (userName === "cheater")
+      return new User(userName, 20, 0, Math.pow(10, 13), 0, 25, 0, itemList);
+    return new User(userName, 20, 0, 50000, 0, 25, 0, itemList);
   }
 
-  static updateUser(user){
-    user.setDays();
-    user.makeMoney(user.getProfitPerDay());
-    let days = user.getDays();
-    if (days % 365 === 0) user.setAge();
+  static setupGame() {
+    let newGameBtn = document.getElementById("newGame");
+    let loginBtn = document.getElementById("login");
+    newGameBtn.addEventListener("click", function () {
+      Controler.startGame();
+    });
+    loginBtn.addEventListener("click", function () {
+      Controler.continueGame();
+    });
+  }
+
+  static startGame() {
+    let name = document
+      .getElementById("name-form")
+      .querySelectorAll(`input[name="userName"]`)
+      .item(0).value;
+    let userAccount = Controler.initializeUserAccount(name);
+    View.initialToMain(userAccount);
+  }
+
+  static continueGame() {
+    let nameInput = document
+      .getElementById("name-form")
+      .querySelectorAll(`input[name="userName"]`)
+      .item(0).value;
+
+    if (Controler.loadUser().name === nameInput) {
+      let userLoaded = Controler.loadUser();
+      View.initialToMain(userLoaded);
+    } else {
+      alert("This name has not been saved.");
+    }
+  }
+
+  static updateUser(user) {
+    user.days++;
+    user.money += user.profitPerDay;
+    let days = user.days;
+    if (days % 365 === 0) user.age++;
     Controler.updateUserInfoCon(user);
+  }
+
+  static updatePrice(item, rate, num) {
+    let diff = Math.floor(item.price * Math.pow(1 + rate, num)) - item.price;
+    item.price += diff;
+    return item.price;
+  }
+
+  static updatePurchasedNum(item, num) {
+    if (item.purchasedNum === item.maxNum) {
+      alert("Out of stock! Thank you!");
+      return;
+    } else if (item.purchasedNum + num > item.maxNum) {
+      alert(`No more stock! Please put less number.`);
+      return;
+    }
+    item.purchasedNum += num;
   }
 
   static updateMainPage(user) {
@@ -612,23 +548,68 @@ class Controler{
   }
 
   static burgerClick(user) {
-    user.makeBurger();
-    user.makeMoney(user.getProfitPerClick());
+    user.burgers++;
+    user.money += user.profitPerClick;
     Controler.updateMainPage(user);
   }
 
-  static resetAllData(user){
-    let result = confirm("Do you really want to Reset All Data?");
-    if(result){
-      Controler.initializeUserAccount(user);
+  static purchaseItem(user, item, num) {
+    if (num === 0) return;
+
+    if (item.name === "EFT Stock") {
+      let profit = Math.floor(item.price * Math.pow(1 + 0.1, num)) - item.price;
+      Controler.updatePrice(item, 0.1, num);
+      user.profitPerDay += Math.floor((profit * item.description) / 10);
+      user.money -= item.price * num;
+      Controler.updatePurchasedNum(item, num);
+      return;
+    }
+
+    this.money -= item.price * num;
+    Controler.updatePurchasedNum(item, num);
+
+    let type = item.type;
+    if (type === "ability") {
+      user.profitPerClick += item.description * num;
+    } else if (type === "investment") {
+      user.profitPerDay += Math.floor(
+        (item.description / 100) * item.price * num
+      );
+    } else {
+      user.profitPerDay += item.description * num;
     }
   }
 
-  static timer(user){
-    setInterval(function(){Controler.updateUser(user)}, 1000);
+  static resetAllData(user) {
+    let result = confirm("Do you really want to Reset All Data?");
+    if (result) {
+      Controler.stopTimer();
+      let newUser = Controler.initializeUserAccount(user.name);
+      Controler.updateMainPage(newUser);
+      Controler.startTimer(newUser);
+    }
   }
 
-  static stopTimer(){
-    clearInterval(timer);
+  static startTimer(user) {
+    Controler.timer = setInterval(function () {
+      Controler.updateUser(user);
+    }, 1000);
+  }
+
+  static stopTimer() {
+    clearInterval(Controler.timer);
+  }
+
+  static saveUser(user) {
+    //user objectをjson文字列として保存
+    localStorage.setItem("saveData", JSON.stringify(user));
+    alert("Saved current status.");
+  }
+
+  static loadUser() {
+    let data = localStorage.getItem("saveData");
+    return JSON.parse(data);
   }
 }
+
+Controler.setupGame();
