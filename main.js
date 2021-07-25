@@ -6,13 +6,13 @@ const config = {
 class User {
   constructor(
     name,
-    age = 20,
-    days = 0,
-    money = 5000000000000,
-    burgers = 0,
-    profitPerClick = 25,
-    profitPerDay = 0,
-    purchasedItems = []
+    age,
+    days,
+    money,
+    burgers,
+    profitPerClick,
+    profitPerDay,
+    purchasedItems
   ) {
     this.name = name;
     this.age = age;
@@ -38,12 +38,24 @@ class Item {
 }
 
 class View {
+  static initialToMain(user) {
+    config.initialForm.classList.add("d-none");
+    config.mainPage.classList.add(
+      "bg-gray",
+      "col-12",
+      "text-center",
+      "text-white",
+      "h-75"
+    );
+    config.mainPage.append(View.createMainPage(user));
+
+    Controler.startTimer(user);
+  }
+
   static createMainPage(user) {
     let container = document.createElement("div");
     container.classList.add("d-flex", "justify-content-between", "h-100");
-
     container.append(View.createLeftCon(user), View.createRightCon(user));
-
     return container;
   }
 
@@ -191,8 +203,8 @@ class View {
     container.classList.add("h-100", "pb-2");
 
     let name = item.name;
-    let maxPurchases = item.maxNum - item.purchasedNum;
-    let price = item.price.toLocaleString();
+    let maxPurchases =
+      item.maxNum === Infinity ? "∞" : item.maxNum - item.purchasedNum;
     let image = item.image;
     let type = item.type;
     let description = "Get ";
@@ -213,7 +225,7 @@ class View {
           <div class="col-7 d-flex flex-column align-items-start text-left">
             <h3>${name}</h3>
             <p>Max Purchases: ${maxPurchases}</p>
-            <p>Price: ¥${price}</p>
+            <p>Price: ¥${item.price.toLocaleString()}</p>
             <p>${description}</p>
           </div>
           <div class="col-5">
@@ -225,7 +237,7 @@ class View {
             <label for="numOfPurchase">How many would you like to purchase?</label>
             <input type="number" class="form-control text-right" id="numOfPurchase" value="0" min="0" max="${maxPurchases}">
           </div>
-          <p class="text-right">Total: ¥30,000,000</p>
+          <p class="total-price text-right">Total: ¥0</p>
           <div class="d-flex justify-content-between py-2">
             <button type="submit" class="back-btn col btn btn-outline-primary btn-bg-white mr-2">Go Back</button>
             <button type="submit" class="purchase-btn col btn btn-primary">Purchase</button>
@@ -234,6 +246,13 @@ class View {
       </div>
     `;
 
+    let form = container.querySelectorAll("#numOfPurchase").item(0);
+    let totalPriceP = container.querySelectorAll(".total-price").item(0);
+    form.addEventListener("change", function () {
+      let totalPrice = (form.value * item.price).toLocaleString();
+      totalPriceP.innerHTML = `Total: ¥${totalPrice}`;
+    });
+
     let backBtn = container.querySelectorAll(".back-btn").item(0);
     backBtn.addEventListener("click", function () {
       Controler.updateMainPage(user);
@@ -241,15 +260,15 @@ class View {
 
     let purchaseBtn = container.querySelectorAll(".purchase-btn").item(0);
     purchaseBtn.addEventListener("click", function () {
-      let inputNum = parseInt(
-        container.querySelectorAll("#numOfPurchase").item(0).value
-      );
-      if (user.money < item.price * inputNum) {
+      if (maxPurchases < parseInt(form.value)) {
+        alert(`No more stock! Please put less number.`);
+        return;
+      } else if (user.money < item.price * parseInt(form.value)) {
         alert("You do not have enough money to buy!");
         return;
       }
 
-      Controler.purchaseItem(user, item, inputNum);
+      Controler.purchaseItem(user, item, parseInt(form.value));
       Controler.updateMainPage(user);
     });
 
@@ -284,7 +303,6 @@ class View {
 
     saveBtn.addEventListener("click", function () {
       Controler.saveUser(user);
-      console.log(user);
     });
 
     return buttonsCon;
@@ -321,9 +339,6 @@ class View {
       "pl-2"
     );
 
-    let image = item.image;
-    let name = item.name;
-    let price = item.price.toLocaleString();
     let type = item.type;
     let description = "+ ";
     if (type === "ability") {
@@ -336,12 +351,12 @@ class View {
 
     container.innerHTML += `
       <div class="col-3 px-0 py-2">
-        <img class="pic-item" src=${image} alt=${name}>
+        <img class="pic-item" src=${item.image} alt=${item.name}>
       </div>
       <div class="col-8 d-flex flex-column align-items-between justify-content-around text-left py-2">
-        <h3>${name}</h3>
+        <h3>${item.name}</h3>
         <div class="d-flex flex-column align-items-between">
-          <p class="col-12 pl-0">¥${price}</p>
+          <p class="col-12 pl-0">¥${item.price.toLocaleString()}</p>
           <p class="col-12 text-green pl-0">${description}</p>
         </div>
       </div>
@@ -349,26 +364,34 @@ class View {
         <h3>${item.purchasedNum}</h3>
       </div>
     `;
+
     return container;
-  }
-
-  static initialToMain(user) {
-    config.initialForm.classList.add("d-none");
-    config.mainPage.classList.add(
-      "bg-gray",
-      "col-12",
-      "text-center",
-      "text-white",
-      "h-75"
-    );
-    config.mainPage.append(View.createMainPage(user));
-
-    Controler.startTimer(user);
   }
 }
 
 class Controler {
   timer;
+
+  static setupGame() {
+    let newGameBtn = document.getElementById("newGame");
+    let loginBtn = document.getElementById("login");
+    newGameBtn.addEventListener("click", function () {
+      Controler.startGame();
+    });
+    loginBtn.addEventListener("click", function () {
+      Controler.continueGame();
+    });
+  }
+
+  static startGame() {
+    let name = document
+      .getElementById("name-form")
+      .querySelectorAll(`input[name="userName"]`)
+      .item(0).value;
+    if (name === "") return;
+    let userAccount = Controler.initializeUserAccount(name);
+    View.initialToMain(userAccount);
+  }
 
   static initializeUserAccount(userName) {
     const itemList = [
@@ -477,32 +500,12 @@ class Controler {
     return new User(userName, 20, 0, 50000, 0, 25, 0, itemList);
   }
 
-  static setupGame() {
-    let newGameBtn = document.getElementById("newGame");
-    let loginBtn = document.getElementById("login");
-    newGameBtn.addEventListener("click", function () {
-      Controler.startGame();
-    });
-    loginBtn.addEventListener("click", function () {
-      Controler.continueGame();
-    });
-  }
-
-  static startGame() {
-    let name = document
-      .getElementById("name-form")
-      .querySelectorAll(`input[name="userName"]`)
-      .item(0).value;
-    let userAccount = Controler.initializeUserAccount(name);
-    View.initialToMain(userAccount);
-  }
-
   static continueGame() {
     let nameInput = document
       .getElementById("name-form")
       .querySelectorAll(`input[name="userName"]`)
       .item(0).value;
-
+    if (nameInput === "") return;
     if (Controler.loadUser().name === nameInput) {
       let userLoaded = Controler.loadUser();
       View.initialToMain(userLoaded);
@@ -553,6 +556,11 @@ class Controler {
     Controler.updateMainPage(user);
   }
 
+  static insertTotalPrice(price, num, ele) {
+    let totalPrice = (num * price).toLocaleString();
+    ele.innerHTML = `Total: ¥${totalPrice}`;
+  }
+
   static purchaseItem(user, item, num) {
     if (num === 0) return;
 
@@ -565,7 +573,7 @@ class Controler {
       return;
     }
 
-    this.money -= item.price * num;
+    user.money -= item.price * num;
     Controler.updatePurchasedNum(item, num);
 
     let type = item.type;
@@ -603,11 +611,12 @@ class Controler {
   static saveUser(user) {
     //user objectをjson文字列として保存
     localStorage.setItem("saveData", JSON.stringify(user));
-    alert("Saved current status.");
+    alert("Saved current status! You can log-in to restart in this status!");
   }
 
   static loadUser() {
     let data = localStorage.getItem("saveData");
+    //json文字列を取得し、objectを生成
     return JSON.parse(data);
   }
 }
