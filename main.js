@@ -562,7 +562,10 @@ class Controler {
   }
 
   static purchaseItem(user, item, num) {
-    if (num === 0) return;
+    if (num < 0 || num % 1 !== 0) {
+      alert("Invalid number.");
+      return;
+    } else if (num === 0) return;
 
     if (item.name === "EFT Stock") {
       let profit = Math.floor(item.price * Math.pow(1 + 0.1, num)) - item.price;
