@@ -402,7 +402,7 @@ class Controler {
         25,
         15000,
         0,
-        "https://cdn.pixabay.com/photo/2015/12/08/00/24/grilling-1081675_960_720.jpg"
+        "https://cdn.pixabay.com/photo/2017/04/17/10/26/barbecue-2237116_960_720.jpg"
       ),
       new Item(
         "EFT Stock",
